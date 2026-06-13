@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTWX — NO TIME WASTED</title>
+    <style>
+        /* BRAND THEME & RESET */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #0d0d0d; color: #fff; padding-bottom: 60px; }
+        
+        /* HEADER NAVIGATION */
+        header { 
+            background: #000; 
+            padding: 20px 40px; 
+            border-bottom: 3px solid #fff; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-logo h1 { font-size: 2.2rem; letter-spacing: 6px; font-weight: 900; text-transform: uppercase; color: #fff; }
+        .header-logo p { color: #888; font-size: 0.75rem; letter-spacing: 3px; margin-top: 2px; font-family: sans-serif; }
+
+        /* NAVIGATION BAG BUTTON */
+        .cart-icon-btn {
+            background: #fff;
+            border: 2px solid #fff;
+            color: #000;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 0px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.2s ease;
+        }
+        .cart-icon-btn:hover { background: #000; color: #fff; }
+        .cart-count { background: #000; color: #fff; padding: 2px 8px; font-size: 0.85rem; }
+
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        
+        /* STREETWEAR SECTION TITLES */
+        .section-title { 
+            font-size: 1.4rem; 
+            letter-spacing: 3px; 
+            margin-bottom: 30px; 
+            background: #fff;
+            color: #000;
+            display: inline-block;
+            padding: 6px 16px;
+            text-transform: uppercase; 
+        }
+
+        /* PRODUCT GRID */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-bottom: 60px; }
+        
+        /* DARK CARD DESIGN */
+        .card-dark { background: #1a1a1a; border: 2px solid #292929; border-radius: 0px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s ease; }
+        .card-dark:hover { border-color: #fff; }
+        .card-dark .img-frame { width: 100%; height: 350px; background-color: #000; display: flex; align-items: center; justify-content: center; padding: 15px; border-bottom: 2px solid #292929; }
+        .card-dark .img-frame img { width: 100%; height: 100%; display: block; object-fit: contain; }
+        .card-dark .info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; font-family: sans-serif; }
+        .card-dark .info h3 { font-family: 'Arial Black', sans-serif; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; color: #fff; }
+        .card-dark .info p { color: #aaa; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4; }
+        .card-dark .price { font-family: 'Arial Black', sans-serif; font-weight: bold; color: #fff; font-size: 1.3rem; margin-bottom: 15px; display: block; }
+        .card-dark .btn { background: #fff; color: #000; border: 2px solid #fff; padding: 12px; width: 100%; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.2s ease; font-family: 'Arial Black', sans-serif; }
+        .card-dark .btn:hover { background: #000; color: #fff; }
+
+        /* LIGHT CARD DESIGN */
+        .card-light { background: #ffffff; border: 2px solid #ffffff; border-radius: 0px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s ease; }
+        .card-light:hover { border-color: #000; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+        .card-light .img-frame { width: 100%; height: 350px; background-color: #ffffff; display: flex; align-items: center; justify-content: center; padding: 15px; border-bottom: 2px solid #eeeeee; }
+        .card-light .img-frame img { width: 100%; height: 100%; display: block; object-fit: contain; }
+        .card-light .info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; font-family: sans-serif; }
+        .card-light .info h3 { font-family: 'Arial Black', sans-serif; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; color: #000; }
+        .card-light .info p { color: #555; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4; }
+        .card-light .price { font-family: 'Arial Black', sans-serif; font-weight: bold; color: #000; font-size: 1.3rem; margin-bottom: 15px; display: block; }
+        .card-light .btn { background: #000; color: #fff; border: 2px solid #000; padding: 12px; width: 100%; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.2s ease; font-family: 'Arial Black', sans-serif; }
+        .card-light .btn:hover { background: #fff; color: #000; }
+
+        /* ENLARGED INTERACTIVE BUTTONS (Proceed & Place Order) */
+        .btn-large {
+            padding: 18px 12px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            border-radius: 0px;
+            font-weight: 900;
+            width: 100%;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        /* MODAL WINDOWS (BAG & CHECKOUT) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000; overflow-y: auto; padding: 20px; }
+        .modal-box { background: #111; border: 3px solid #fff; padding: 30px; width: 100%; max-width: 500px; position: relative; color: #fff; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #fff; font-weight: bold; }
+        
+        .form-group { margin-bottom: 18px; font-family: sans-serif; }
+        .form-group label { display: block; font-family: 'Arial Black', sans-serif; font-size: 0.85rem; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background: #222; border: 2px solid #444; color: #fff; font-size: 1rem; font-family: sans-serif; }
+        .form-group input:focus, .form-group select:focus { border-color: #fff; outline: none; }
+        
+        .pay-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        .pay-method { border: 2px solid #333; padding: 15px; text-align: center; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+        .pay-method.active { border-color: #fff; background: #fff; color: #000; }
+        .pay-method.mpesa { color: #85bb65; }
+        .pay-method.mpesa.active { color: #000; background: #85bb65; }
+        .pay-method.emola { color: #ff6600; }
+        .pay-method.emola.active { color: #fff; background: #ff6600; }
+
+        /* SHOPPING CART ITEM LAYOUT */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #444; font-family: sans-serif; }
+        .cart-item-details h4 { font-family: 'Arial Black', sans-serif; font-size: 0.95rem; text-transform: uppercase; }
+        .cart-item-details p { font-size: 0.85rem; color: #888; }
+        .remove-item-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
+        .cart-total-box { margin: 20px 0; padding: 15px 0; border-top: 2px solid #fff; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <h1>NTWX</h1>
+            <p>NO TIME WASTED</p>
+        </div>
+        <button class="cart-icon-btn" onclick="openBagModal()">
+            🛍️ Bag <span class="cart-count" id="bag-count">0</span>
+        </button>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECTION 1: OVERSIZED SHIRTS (DARK THEME) -->
+        <div style="text-align: left;"><h2 class="section-title">Oversized Heavyweight Tees</h2></div>
+        <div class="grid">
+            <div class="card-dark">
+                <div class="img-frame">
+                    <img src="image_11.png" onerror="this.src='image_11.png.jpeg'" alt="Oversized Tees Lineup">
+                </div>
+                <div class="info">
+                    <div>
+                        <h3>Oversized Tees Collection</h3>
+                        <p>Full production catalog layout showcasing front logo prints and heavy script back art graphics.</p>
+                    </div>
+                    <div>
+                        <span class="price">1,500 MZN</span>
+                        <button class="btn" onclick="addToCart('Oversized Tees Collection', 1500, 'Tees')">Add To Bag</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: HOODIES (LIGHT THEME) -->
+        <div style="text-align: left;"><h2 class="section-title">Streetwear Hoodies</h2></div>
+        <div class="grid">
+            <div class="card-light">
+                <div class="img-frame"><img src="image_12.png" onerror="this.src='image_12.png.jpeg'" alt="White Hoodie"></div>
+                <div class="info">
+                    <div><h3>Logo Hoodie - White</h3><p>Off-white heavy cotton blend featuring a contrasting custom text drop print.</p></div>
+                    <div><span class="price">2,500 MZN</span><button class="btn" onclick="addToCart('Logo Hoodie - White', 2500, 'Hoodies')">Add To Bag</button></div>
+                </div>
+            </div>
+
+            <div class="card-light">
+                <div class="img-frame"><img src="image_13.png" onerror="this.src='image_13.png.jpeg'" alt="Black Blue Hoodie"></div>
+                <div class="info">
+                    <div><h3>Logo Hoodie - Black/Blue</h3><p>Core black street layer accented with high-impact electric teal color text.</p></div>
+                    <div><span class="price">2,500 MZN</span><button class="btn" onclick="addToCart('Logo Hoodie - Black/Blue', 2500, 'Hoodies')">Add To Bag</button></div>
+                </div>
+            </div>
+
+            <div class="card-light">
+                <div class="img-frame"><img src="image_14.png" onerror="this.src='image_14.png.jpeg'" alt="Black White Hoodie"></div>
+                <div class="info">
+                    <div><h3>Logo Hoodie - Black/White</h3><p>Midnight black fleece profile layout detailed with clean stark white line art.</p></div>
+                    <div><span class="price">2,500 MZN</span><button class="btn" onclick="addToCart('Logo Hoodie - Black/White', 2500, 'Hoodies')">Add To Bag</button></div>
+                </div>
+            </div>
+
+            <div class="card-light">
+                <div class="img-frame"><img src="image_15.png" onerror="this.src='image_15.png.jpeg'" alt="Black Pink Hoodie"></div>
+                <div class="info">
+                    <div><h3>Logo Hoodie - Black/Pink</h3><p>Deep black design piece balanced with an eye-catching vibrant hot pink script.</p></div>
+                    <div><span class="price">2,500 MZN</span><button class="btn" onclick="addToCart('Logo Hoodie - Black/Pink', 2500, 'Hoodies')">Add To Bag</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: TRUCKER HATS (LIGHT THEME) -->
+        <div style="text-align: left;"><h2 class="section-title">Lips Trucker Caps</h2></div>
+        <div class="grid">
+            <div class="card-light">
+                <div class="img-frame"><img src="image_16.png" onerror="this.src='image_16.png.jpeg'" alt="Blue Lips Hat"></div>
+                <div class="info">
+                    <div><h3>Blue Lips Trucker</h3><p>Curved visor trucker frame configuration mixed with cyan blue tongue patterns.</p></div>
+                    <div><span class="price">800 MZN</span><button class="btn" onclick="addToCart('Blue Lips Trucker', 800, 'Hats')">Add To Bag</button></div>
+                </div>
+            </div>
+            <div class="card-light">
+                <div class="img-frame"><img src="image_17.png" onerror="this.src='image_17.png.jpeg'" alt="Black Lips Hat"></div>
+                <div class="info">
+                    <div><h3>Black Lips Trucker</h3><p>Dark stealth panel cap layout focusing entirely on clear monochrome aesthetics.</p></div>
+                    <div><span class="price">800 MZN</span><button class="btn" onclick="addToCart('Black Lips Trucker', 800, 'Hats')">Add To Bag</button></div>
+                </div>
+            </div>
+            <div class="card-light">
+                <div class="img-frame"><img src="image_18.png" onerror="this.src='image_18.png.jpeg'" alt="Pink Lips Hat"></div>
+                <div class="info">
+                    <div><h3>Pink Lips Trucker</h3><p>High-contrast lifestyle cap showing off bright bubblegum pink graphic repeats.</p></div>
+                    <div><span class="price">800 MZN</span><button class="btn" onclick="addToCart('Pink Lips Trucker', 800, 'Hats')">Add To Bag</button></div>
+                </div>
+            </div>
+            <div class="card-light">
+                <div class="img-frame"><img src="image_19.png" onerror="this.src='image_19.png.jpeg'" alt="Red Lips Hat"></div>
+                <div class="info">
+                    <div><h3>Red Lips Trucker</h3><p>Traditional clean mesh look featuring deep fire crimson lifestyle branding accents.</p></div>
+                    <div><span class="price">800 MZN</span><button class="btn" onclick="addToCart('Red Lips Trucker', 800, 'Hats')">Add To Bag</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: FITTED TOPS (DARK THEME) -->
+        <div style="text-align: left;"><h2 class="section-title">Fitted Crop Tops Collection</h2></div>
+        <div class="grid">
+            <div class="card-dark">
+                <div class="img-frame">
+                    <img src="image_20.png" onerror="this.src='image_20.png.jpeg'" alt="Fitted Tops Lineup">
+                </div>
+                <div class="info">
+                    <div>
+                        <h3>Fitted Tops Collection</h3>
+                        <p>Slim-fit premium line highlighting high-density chest branding and Y2K planetary back configurations.</p>
+                    </div>
+                    <div>
+                        <span class="price">1,200 MZN</span>
+                        <button class="btn" onclick="addToCart('Fitted Top Collection', 1200, 'CropTops')">Add To Bag</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL WINDOW 1: VIEW SHOPPING BAG -->
+    <div class="modal" id="bag-modal">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeBagModal()">&times;</span>
+            <h2 style="margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; font-size:1.4rem;">Your Bag</h2>
+            
+            <div id="cart-items-container"></div>
+            
+            <div class="cart-total-box">
+                <span style="font-family:'Arial Black'; font-size:1.1rem; text-transform:uppercase;">Total Balance:</span>
+                <span id="cart-total-price" style="font-family:'Arial Black'; font-size:1.3rem;">0 MZN</span>
+            </div>
+            
+            <!-- ENLARGED PROCEED BUTTON -->
+            <button class="btn-large" style="background:#fff; color:#000; border:2px solid #fff;" onclick="proceedToCheckoutForm()">Proceed To Checkout</button>
+        </div>
+    </div>
+
+    <!-- MODAL WINDOW 2: INTERACTIVE CHECKOUT -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeCheckoutForm()">&times;</span>
+            <h2 style="margin-bottom:20px; text-transform:uppercase; letter-spacing:1px; font-size:1.3rem;">Secure Gateway</h2>
+            
+            <div class="form-group">
+                <label>Order Statement</label>
+                <textarea id="form-summary" style="width:100%; padding:10px; background:#222; color:#fff; border:2px solid #444; font-family:sans-serif; font-size:0.9rem; resize:none;" rows="5" readonly></textarea>
+            </div>
+            <div class="form-group">
+                <label>Mobile Money Network</label>
+                <div class="pay-options">
+                    <div class="pay-method mpesa active" id="method-mpesa" onclick="setMethod('M-Pesa')">M-Pesa</div>
+                    <div class="pay-method emola" id="method-emola" onclick="setMethod('e-Mola')">e-Mola</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="phone-label">M-Pesa Number (+258)</label>
+                <input type="tel" id="user-phone" placeholder="84XXXXXXX / 85XXXXXXX" required>
+            </div>
+            <div class="form-group" style="margin-top:25px;">
+                <!-- ENLARGED PLACE PRODUCTION ORDER BUTTON -->
+                <button class="btn-large" style="background:#fff; color:#000; border:2px solid #fff;" onclick="processPayment()">Place Production Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENGINE CORE SCRIPTS -->
+    <script>
+        let cart = [];
+        let selectedMethod = "M-Pesa";
+
+        function addToCart(name, price, category) {
+            let sizeOptions = "S, M, L, XL";
+            if(category === 'Hats') sizeOptions = "One Size";
+            
+            const size = prompt(`Select Size for ${name}:\nOptions: ${sizeOptions}`, category === 'Hats' ? "One Size" : "M");
+            if (size === null) return; 
+            
+            let colorsAvailable = "Black, White, Blue, Pink, Red, Grey"; 
+            let defaultColor = "Black";
+
+            if (category === "CropTops") {
+                colorsAvailable = "Black, Brown, White";
+                defaultColor = "Black";
+            } else if (category === "Hats") {
+                colorsAvailable = "Blue, Black, Pink, Red";
+                defaultColor = "Blue";
+            }
+
+            const color = prompt(`Select Garment Color for ${name}:\nOptions: ${colorsAvailable}`, defaultColor);
+            if (color === null) return; 
+
+            const item = {
+                name: name,
+                price: price,
+                size: size ? size.toUpperCase() : "M",
+                color: color ? color.trim() : defaultColor
+            };
+            
+            cart.push(item);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('bag-count').innerText = cart.length;
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = "";
+            
+            if(cart.length === 0) {
+                container.innerHTML = "<p style='color:#666; padding:15px 0;'>Your collection bundle is currently empty.</p>";
+                document.getElementById('cart-total-price').innerText = "0 MZN";
+                return;
+            }
+            
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-details">
+                            <h4 style="color:#fff;">${item.name}</h4>
+                            <p style="color:#aaa;">Color: ${item.color} | Size: ${item.size} — ${item.price.toLocaleString()} MZN</p>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('cart-total-price').innerText = total.toLocaleString() + " MZN";
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function openBagModal() {
+            updateCartUI();
+            document.getElementById('bag-modal').style.display = 'flex';
+        }
+
+        function closeBagModal() {
+            document.getElementById('bag-modal').style.display = 'none';
+        }
+
+        function proceedToCheckoutForm() {
+            if(cart.length === 0) {
+                alert("Your bag is empty! Add an article to initialize payment processing.");
+                return;
+            }
+            closeBagModal();
+            
+            let summary = "";
+            let total = 0;
+            cart.forEach(item => {
+                summary += `• ${item.name}\n  [Color: ${item.color} | Size: ${item.size}] - ${item.price.toLocaleString()} MZN\n`;
+                total += item.price;
+            });
+            summary += `\nGRAND TOTAL: ${total.toLocaleString()} MZN`;
+            
+            document.getElementById('form-summary').value = summary;
+            document.getElementById('checkout-modal').style.display = 'flex';
+        }
+
+        function closeCheckoutForm() {
+            document.getElementById('checkout-modal').style.display = 'none';
+        }
+
+        function setMethod(method) {
+            selectedMethod = method;
+            document.getElementById('method-mpesa').classList.remove('active');
+            document.getElementById('method-emola').classList.remove('active');
+            
+            if(method === 'M-Pesa') {
+                document.getElementById('method-mpesa').classList.add('active');
+                document.getElementById('phone-label').innerText = "M-Pesa Number (+258)";
+                document.getElementById('user-phone').placeholder = "84XXXXXXX / 85XXXXXXX";
+            } else {
+                document.getElementById('method-emola').classList.add('active');
+                document.getElementById('phone-label').innerText = "e-Mola Number (+258)";
+                document.getElementById('user-phone').placeholder = "86XXXXXXX / 87XXXXXXX";
+            }
+        }
+
+        function processPayment() {
+            const phone = document.getElementById('user-phone').value;
+            if(!phone) {
+                alert("An active phone number is required to receive the payment notification push request.");
+                return;
+            }
+            
+            let total = 0;
+            cart.forEach(item => total += item.price);
+
+            alert(`USSD Push Confirmation Sent!\n\nSystem: ${selectedMethod}\nAccount: +258 ${phone}\nTotal Amount: ${total.toLocaleString()} MZN\n\nPlease approve the automated system pop-up prompt on your mobile phone screen to clear the invoice and trigger production execution.`);
+            
+            cart = [];
+            updateCartUI();
+            closeCheckoutForm();
+        }
+
+        window.onclick = function(e) {
+            if (e.target == document.getElementById('bag-modal')) closeBagModal();
+            if (e.target == document.getElementById('checkout-modal')) closeCheckoutForm();
+        }
+    </script>
+</body>
+</html>
